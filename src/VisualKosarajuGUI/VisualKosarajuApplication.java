@@ -1,7 +1,7 @@
 package VisualKosarajuGUI;
 
 public class VisualKosarajuApplication {
-    public VisualKosarajuApplication() {
+    private VisualKosarajuApplication() {
          VisualKosarajuWindow window = new VisualKosarajuWindow();
          window.setVisible(true);
     }

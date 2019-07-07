@@ -1,4 +1,4 @@
-package com.kosaraju.logic;
+package VisualKosarajuLogic;
 
 import java.util.*;
 
@@ -38,72 +38,6 @@ class Pair {
     }
 }
 
-/*
-public class Graph {
-    private HashMap<Vertex, ArrayList<Vertex>> adjVertices;
-
-    public Graph(){
-        adjVertices = new HashMap<Vertex, ArrayList<Vertex>>();
-    }
-
-    public  HashMap<Vertex, ArrayList<Vertex>> getGraph()
-    {
-        return adjVertices;
-    }
-
-    public void addVertex(String label) {
-        adjVertices.putIfAbsent(new Vertex(label), new ArrayList<Vertex>());
-        System.out.println(adjVertices.values());
-    }
-
-    public void removeVertex(String label) {
-        Vertex v = new Vertex(label);
-        adjVertices.values().stream().forEach(e -> e.remove(v));
-        adjVertices.remove(new Vertex(label));
-    }
-
-    public void addEdge(String label1, String label2) {
-        Vertex v1 = new Vertex(label1);
-        Vertex v2 = new Vertex(label2);
-        adjVertices.get(v1).add(v2);
-    }
-
-    public void removeEdge(String label1, String label2) {
-        Vertex v1 = new Vertex(label1);
-        Vertex v2 = new Vertex(label2);
-        List<Vertex> eV1 = adjVertices.get(v1);
-        if (eV1 != null)
-            eV1.remove(v2);
-    }
-
-    public List<Vertex> getAdjVertices(String label) {
-        return adjVertices.get(new Vertex(label));
-    }
-
-    public Map<Vertex, List<Vertex>> transposeGraph()
-    {
-        List<Pair> modified = new ArrayList<Pair>();
-        Map<Vertex, List<Vertex>> new_g = new HashMap<Vertex, List<Vertex>>();
-
-        for(Vertex key : adjVertices.keySet())
-        {
-            for(Vertex val : adjVertices.get(key))
-            {
-                if(!modified.contains(new Pair(key, val)))
-                {
-                    new_g.putIfAbsent(new Vertex(val), new ArrayList<Vertex>());
-                    new_g.get(val).add(key);
-                    modified.add(new Pair(val, key));
-                }
-            }
-        }
-
-        return new_g;
-    }
-}
-
-*/
-
 public class Graph {
 
     private HashMap<String, List<String>> vertexMap;
@@ -118,7 +52,7 @@ public class Graph {
         vertexMap = g;
     }
 
-    public  HashMap<String, List<String>> getGraph()
+    public HashMap<String, List<String>> getGraph()
     {
         return vertexMap;
     }

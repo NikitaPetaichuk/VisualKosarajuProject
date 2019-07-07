@@ -1,14 +1,15 @@
-package com.kosaraju.logic;
+package VisualKosarajuLogic;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class KosarajuAlgorithm {
     private Graph graph = new Graph();
+    private List<String> transpositionStepTrace = new ArrayList<>();
+    private List<String> strongConnectivityComponents;
 
-    public void createGraph(List<String> vertexs, List<String[]> edges)
+    public void createGraph(List<String> vertexes, List<String[]> edges)
     {
-        for(String v : vertexs)
+        for(String v : vertexes)
             graph.addVertex(v);
         for(String[] e : edges)
             graph.addEdge(e[0], e[1]);
@@ -20,40 +21,41 @@ public class KosarajuAlgorithm {
     {
         Graph t_graph = graph.transposeGraph();
         List<String> priority_list = tOutDepthTraversal(t_graph);
+        System.out.println(transpositionStepTrace);
         System.out.println("Priority list: " + priority_list);
-        List<String> c_c = depthFirstTraversal(priority_list);
-        System.out.println("Strong connectivity components: " + c_c);
+        strongConnectivityComponents = depthFirstTraversal(priority_list);
+        System.out.println("Strong connectivity components: " + strongConnectivityComponents);
     }
 
-    public List<String> tOutDepthTraversal(Graph g)
+    private List<String> tOutDepthTraversal(Graph g)
     {
         List<String> non_visited = new ArrayList<String>();
         for(String v : g.getGraph().keySet())
             non_visited.add(v);
 
-        List<String> visited = new ArrayList<String>();
+        List<String> dfsTrace = new ArrayList<String>();
         Stack<String> stack = new Stack<String>();
         List<String> t_out_list = new ArrayList<String>();
         stack.push(g.getGraph().keySet().iterator().next());
 
-        while (!non_visited.isEmpty()) {
+        while (!non_visited.isEmpty() || !stack.empty()) {
             if(stack.isEmpty())
             {
+                dfsTrace.add(" ");
                 stack.push(non_visited.get(0));
                 non_visited.remove(0);
             }
 
             String vertex = stack.peek();
-            visited.add(vertex);
+            dfsTrace.add(vertex);
             non_visited.remove(vertex);
             int stack_size = stack.size();
 
              for(String u : g.getNeighbours(vertex))
-                 if(!visited.contains(u))
+                 if(!dfsTrace.contains(u))
                  {
-                     non_visited.remove(u);
-                     visited.add(u);
                      stack.push(u);
+                     break;
                  }
 
             if(stack_size == stack.size()) {
@@ -62,11 +64,12 @@ public class KosarajuAlgorithm {
         }
 
         Collections.reverse(t_out_list);
-
+        System.out.println(dfsTrace);
+        transpositionStepTrace.addAll(dfsTrace);
         return t_out_list;
     }
 
-    public List<String> depthFirstTraversal(List<String> list_p) {
+    private List<String> depthFirstTraversal(List<String> list_p) {
         List<String> non_visited = new ArrayList<String>();
         for (String v : graph.getGraph().keySet())
             non_visited.add(v);
@@ -95,5 +98,13 @@ public class KosarajuAlgorithm {
             }
         }
         return c_c;
+    }
+
+    public List<String> getTranspositionStepTrace() {
+        return transpositionStepTrace;
+    }
+
+    public List<String> getStrongConnectivityComponents() {
+        return strongConnectivityComponents;
     }
 }
