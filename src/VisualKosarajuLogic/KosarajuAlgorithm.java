@@ -6,42 +6,37 @@ public class KosarajuAlgorithm {
     private Graph graph = new Graph();
     private List<String> transpositionStepTrace = new ArrayList<>();
     private List<String> strongConnectivityComponents;
+    private List<String> originalStepTrace = new ArrayList<>();
 
-    public void createGraph(List<String> vertexes, List<String[]> edges)
-    {
+    public void createGraph(List<String> vertexes, List<String[]> edges) {
         for(String v : vertexes)
             graph.addVertex(v);
         for(String[] e : edges)
             graph.addEdge(e[0], e[1]);
-
-        System.out.println(graph.getGraph());
     }
 
-    public void Algorithm()
-    {
+    public void Algorithm() {
         Graph t_graph = graph.transposeGraph();
         List<String> priority_list = tOutDepthTraversal(t_graph);
-        System.out.println(transpositionStepTrace);
-        System.out.println("Priority list: " + priority_list);
         strongConnectivityComponents = depthFirstTraversal(priority_list);
-        System.out.println("Strong connectivity components: " + strongConnectivityComponents);
     }
 
-    private List<String> tOutDepthTraversal(Graph g)
-    {
-        List<String> non_visited = new ArrayList<String>();
-        for(String v : g.getGraph().keySet())
-            non_visited.add(v);
+    private List<String> tOutDepthTraversal(Graph g) {
+        List<String> non_visited = new ArrayList<>(g.getGraph().keySet());
+        if (non_visited.isEmpty()) {
+            return new ArrayList<>();
+        }
 
-        List<String> dfsTrace = new ArrayList<String>();
-        Stack<String> stack = new Stack<String>();
-        List<String> t_out_list = new ArrayList<String>();
-        stack.push(g.getGraph().keySet().iterator().next());
+        List<String> dfsTrace = new ArrayList<>();
+        Stack<String> stack = new Stack<>();
+        List<String> t_out_list = new ArrayList<>();
+        String[] vertexes = g.getGraph().keySet().toArray(new String[0]);
+        stack.push(vertexes[0]);
 
         while (!non_visited.isEmpty() || !stack.empty()) {
             if(stack.isEmpty())
             {
-                dfsTrace.add(" ");
+                dfsTrace.add("");
                 stack.push(non_visited.get(0));
                 non_visited.remove(0);
             }
@@ -51,12 +46,12 @@ public class KosarajuAlgorithm {
             non_visited.remove(vertex);
             int stack_size = stack.size();
 
-             for(String u : g.getNeighbours(vertex))
-                 if(!dfsTrace.contains(u))
-                 {
-                     stack.push(u);
-                     break;
-                 }
+            for(String u : g.getNeighbours(vertex))
+                if(!dfsTrace.contains(u))
+                {
+                    stack.push(u);
+                    break;
+                }
 
             if(stack_size == stack.size()) {
                 t_out_list.add(stack.pop());
@@ -64,37 +59,47 @@ public class KosarajuAlgorithm {
         }
 
         Collections.reverse(t_out_list);
-        System.out.println(dfsTrace);
         transpositionStepTrace.addAll(dfsTrace);
         return t_out_list;
     }
 
     private List<String> depthFirstTraversal(List<String> list_p) {
-        List<String> non_visited = new ArrayList<String>();
-        for (String v : graph.getGraph().keySet())
-            non_visited.add(v);
+        if (list_p.isEmpty()) {
+            return new ArrayList<>();
+        }
 
+        List<String> non_visited = new ArrayList<String>(graph.getGraph().keySet());
         Stack<String> stack = new Stack<String>();
         List<String> c_c = new ArrayList<String>();
         stack.push(list_p.get(0));
         list_p.remove(0);
 
-        while (!non_visited.isEmpty()) {
+        while (!non_visited.isEmpty() || !stack.empty()) {
             if (stack.isEmpty()) {
                 String first = list_p.get(0);
                 stack.push(first);
                 non_visited.remove(first);
+                originalStepTrace.add("");
                 c_c.add(null);
             }
 
-            String vertex = stack.pop();
+            String vertex = stack.peek();
+            originalStepTrace.add(vertex);
             non_visited.remove(vertex);
             if (!c_c.contains(vertex)) {
                 list_p.remove(vertex);
                 c_c.add(vertex);
-                for (String v : graph.getNeighbours(vertex)) {
+            }
+
+            int stackSize = stack.size();
+            for (String v : graph.getNeighbours(vertex)) {
+                if (non_visited.contains(v)) {
                     stack.push(v);
+                    break;
                 }
+            }
+            if (stackSize == stack.size()) {
+                stack.pop();
             }
         }
         return c_c;
@@ -106,5 +111,9 @@ public class KosarajuAlgorithm {
 
     public List<String> getStrongConnectivityComponents() {
         return strongConnectivityComponents;
+    }
+
+    public List<String> getOriginalStepTrace() {
+        return originalStepTrace;
     }
 }

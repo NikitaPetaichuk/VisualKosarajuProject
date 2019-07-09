@@ -2,12 +2,11 @@ package VisualKosarajuLogic;
 
 import java.util.*;
 
-
 class Pair {
     private String l;
     private String r;
 
-    public Pair(String l,String r){
+    public Pair(String l,String r) {
         this.l = l;
         this.r = r;
     }
@@ -18,8 +17,7 @@ class Pair {
     public void setR(String r){ this.r = r; }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if(this == obj)
             return true;
         else if(obj instanceof Pair){
@@ -44,7 +42,7 @@ public class Graph {
 
     public Graph()
     {
-        vertexMap = new HashMap<String, List<String>>();
+        vertexMap = new HashMap<>();
     }
 
     public Graph(HashMap<String, List<String>> g)
@@ -59,7 +57,7 @@ public class Graph {
 
     public void addVertex(String vertexName) {
         if (!hasVertex(vertexName)) {
-            vertexMap.put(vertexName, new ArrayList<String>());
+            vertexMap.put(vertexName, new ArrayList<>());
         }
     }
 
@@ -81,21 +79,16 @@ public class Graph {
         Collections.sort(edges1);
     }
 
-    public Graph transposeGraph()
-    {
-        List<Pair> modified = new ArrayList<Pair>();
+    public Graph transposeGraph() {
         HashMap<String, List<String>> new_g = new HashMap<String, List<String>>();
 
-        for(String key : vertexMap.keySet())
-        {
-            for(String val : vertexMap.get(key))
-            {
-                new_g.putIfAbsent(key, new ArrayList<String>());
-                if(!modified.contains(new Pair(key, val)))
-                {
-                    new_g.putIfAbsent(val, new ArrayList<String>());
-                    new_g.get(val).add(key);
-                    modified.add(new Pair(val, key));
+        for (String vertex : vertexMap.keySet()) {
+            new_g.put(vertex, new ArrayList<>());
+        }
+        for (String source : new_g.keySet()) {
+            for (String target : vertexMap.keySet()) {
+                if (vertexMap.get(target).contains(source)) {
+                    new_g.get(source).add(target);
                 }
             }
         }

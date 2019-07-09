@@ -12,6 +12,7 @@ class VisualKosarajuAlgorithmProxy extends VisualKosarajuWindow {
     private List<String[]> edges = new ArrayList<>();
     private List<String> transpositionStepTrace;
     private List<String> strongConnectivityComponents;
+    private List<String> originalStepTrace;
 
     VisualKosarajuAlgorithmProxy() {
         KosarajuAlgorithm mainLogic = new KosarajuAlgorithm();
@@ -21,6 +22,7 @@ class VisualKosarajuAlgorithmProxy extends VisualKosarajuWindow {
         mainLogic.Algorithm();
         transpositionStepTrace = mainLogic.getTranspositionStepTrace();
         strongConnectivityComponents = mainLogic.getStrongConnectivityComponents();
+        originalStepTrace = mainLogic.getOriginalStepTrace();
     }
 
     private void prepareGraphData() {
@@ -43,21 +45,11 @@ class VisualKosarajuAlgorithmProxy extends VisualKosarajuWindow {
 
     String[] createAlgorithmStepTrace() {
         List<String> algorithmStepTrace = new ArrayList<>();
-        String[] arrayOfStrongConnectivityComponents = strongConnectivityComponents.toArray(new String[0]);
         algorithmStepTrace.add("");
         algorithmStepTrace.addAll(transpositionStepTrace);
         algorithmStepTrace.add("");
         algorithmStepTrace.add(null);
-        for (int i = 0; i < arrayOfStrongConnectivityComponents.length; i++) {
-            if (arrayOfStrongConnectivityComponents[i] == null) {
-                for (int j = i - 2; j >= 0 && arrayOfStrongConnectivityComponents[j] != null; j--) {
-                    algorithmStepTrace.add(arrayOfStrongConnectivityComponents[j]);
-                }
-                algorithmStepTrace.add("");
-            } else {
-                algorithmStepTrace.add(arrayOfStrongConnectivityComponents[i]);
-            }
-        }
+        algorithmStepTrace.addAll(originalStepTrace);
         algorithmStepTrace.add("");
         algorithmStepTrace.add(null);
         return algorithmStepTrace.toArray(new String[0]);
