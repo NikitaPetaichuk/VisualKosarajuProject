@@ -38,7 +38,7 @@ class Pair {
 
 public class Graph {
 
-    private HashMap<String, List<String>> vertexMap;
+    public HashMap<String, List<String>> vertexMap;
 
     public Graph()
     {

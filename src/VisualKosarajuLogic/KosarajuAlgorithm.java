@@ -3,7 +3,7 @@ package VisualKosarajuLogic;
 import java.util.*;
 
 public class KosarajuAlgorithm {
-    private Graph graph = new Graph();
+    public Graph graph = new Graph();
     private List<String> transpositionStepTrace = new ArrayList<>();
     private List<String> strongConnectivityComponents;
     private List<String> originalStepTrace = new ArrayList<>();
@@ -21,7 +21,7 @@ public class KosarajuAlgorithm {
         strongConnectivityComponents = depthFirstTraversal(priority_list);
     }
 
-    private List<String> tOutDepthTraversal(Graph g) {
+    public List<String> tOutDepthTraversal(Graph g) {
         List<String> non_visited = new ArrayList<>(g.getGraph().keySet());
         if (non_visited.isEmpty()) {
             return new ArrayList<>();
@@ -63,7 +63,7 @@ public class KosarajuAlgorithm {
         return t_out_list;
     }
 
-    private List<String> depthFirstTraversal(List<String> list_p) {
+    public List<String> depthFirstTraversal(List<String> list_p) {
         if (list_p.isEmpty()) {
             return new ArrayList<>();
         }
