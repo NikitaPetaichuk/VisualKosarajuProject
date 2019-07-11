@@ -1,10 +1,6 @@
 import VisualKosarajuLogic.KosarajuAlgorithm;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.junit.*;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -59,7 +55,7 @@ public class Tests1 {
 
         tka1.createGraph(v, e);
         tka.graph = tka.graph.transposeGraph();
-        assertEquals(tka.graph.vertexMap, tka1.graph.vertexMap);
+        assertEquals(tka1.graph.vertexMap, tka.graph.vertexMap);
     }
 
     @Test
@@ -70,6 +66,19 @@ public class Tests1 {
 
     @Test
     public void testDepthFirstTraversal(){
+        List<String> res = Arrays.asList("A", "B", "F", "C", "E", "D");
+        assertEquals(res, tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())));
+    }
+
+    @Test
+    public void testGetTranspositionStepTrace(){
+        List<String> res = Arrays.asList("A", "C", "D", "E", "D", "C", "F", "B", "F", "C", "A");
+        tka.tOutDepthTraversal(tka.graph.transposeGraph());
+        assertEquals(res, tka.getTranspositionStepTrace());
+    }
+
+    @Test
+    public void testGetOriginalStepTrace(){
         List<String> res = Arrays.asList("A", "B", "F", "C", "E", "D");
         assertEquals(res, tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())));
     }

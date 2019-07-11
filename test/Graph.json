@@ -1,0 +1,23 @@
+{
+	"Vertexes": [
+		"aaaa",
+		"bbbb",
+		"cccc",
+		"dddd",
+		"eeee"
+	],
+	"Edges": {
+		"aaaa": [
+			"bbbb",
+			"cccc"
+		],
+		"bbbb": [
+			"cccc"
+		],
+		"dddd": [
+			"cccc",
+			"bbbb"
+		],
+		"eeee": null
+	}
+}

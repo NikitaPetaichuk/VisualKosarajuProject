@@ -43,18 +43,31 @@ public class Tests2 {
 
         tka1.createGraph(v, e);
         tka.graph = tka.graph.transposeGraph();
-        assertEquals(tka.graph.vertexMap, tka1.graph.vertexMap);
+        assertEquals(tka1.graph.vertexMap, tka.graph.vertexMap);
     }
 
     @Test
     public void testTOutDepthTraversal(){
         List<String> res = Arrays.asList("K", "H", "G");
-        assertEquals(tka.tOutDepthTraversal(tka.graph.transposeGraph()), res);
+        assertEquals(res, tka.tOutDepthTraversal(tka.graph.transposeGraph()));
     }
 
     @Test
     public void testDepthFirstTraversal(){
         List<String> res = Arrays.asList("K", null, "H", null, "G");
-        assertEquals(tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())), res);
+        assertEquals(res, tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())));
+    }
+
+    @Test
+    public void testGetTranspositionStepTrace(){
+        List<String> res = Arrays.asList("G", "", "H", "", "K");
+        tka.tOutDepthTraversal(tka.graph.transposeGraph());
+        assertEquals(res, tka.getTranspositionStepTrace());
+    }
+
+    @Test
+    public void testGetOriginalStepTrace(){
+        List<String> res = Arrays.asList("K", null, "H", null, "G");
+        assertEquals(res, tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())));
     }
 }

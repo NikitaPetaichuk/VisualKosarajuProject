@@ -1,12 +1,10 @@
 import VisualKosarajuLogic.KosarajuAlgorithm;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
 
 public class Tests {
     private KosarajuAlgorithm tka = new KosarajuAlgorithm();
@@ -55,18 +53,31 @@ public class Tests {
 
         tka1.createGraph(v, e);
         tka.graph = tka.graph.transposeGraph();
-        assertEquals(tka.graph.vertexMap, tka1.graph.vertexMap);
+        assertEquals(tka1.graph.vertexMap, tka.graph.vertexMap);
     }
 
     @Test
     public void testTOutDepthTraversal(){
         List<String> res = Arrays.asList("C", "A", "F", "D", "B");
-        assertEquals(tka.tOutDepthTraversal(tka.graph.transposeGraph()), res);
+        assertEquals(res, tka.tOutDepthTraversal(tka.graph.transposeGraph()));
     }
 
     @Test
     public void testDepthFirstTraversal(){
         List<String> res = Arrays.asList("C", null, "A", "B", "D", "F");
-        assertEquals(tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())), res);
+        assertEquals(res, tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())));
+    }
+
+    @Test
+    public void testGetTranspositionStepTrace(){
+        List<String> res = Arrays.asList("A", "F", "D", "B", "D", "F", "A", "", "C");
+        tka.tOutDepthTraversal(tka.graph.transposeGraph());
+        assertEquals(res, tka.getTranspositionStepTrace());
+    }
+
+    @Test
+    public void testGetOriginalStepTrace(){
+        List<String> res = Arrays.asList("C", null, "A", "B", "D", "F");
+        assertEquals(res, tka.depthFirstTraversal(tka.tOutDepthTraversal(tka.graph.transposeGraph())));
     }
 }
